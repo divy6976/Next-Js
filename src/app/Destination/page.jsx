@@ -1,9 +1,12 @@
 import Link from "next/link";
 
 
+
 function Page() {
+  
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen gap-6 bg-gray-100 text-black">
+    <div className="flex flex-col items-center justify-center min-h-screen gap-6 bg-black  text-black">
       
       <h1 className="text-2xl font-semibold mb-4 text-black">
         Choose your Destinations
