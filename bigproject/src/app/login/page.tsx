@@ -2,16 +2,19 @@
 import Link from "next/link";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
+
 
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const searchParamas=useSearchParams();
+  const callbackUrl=searchParamas.get("callbackUrl") || "/";
   const router = useRouter();
   const session=useSession();
-  console.log(session);
+  // console.log(session);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,7 +22,11 @@ export default function LoginPage() {
 
     try {
       const data = await signIn('credentials', { email, password, redirect: false });
-      router.push("/");
+      
+      if (data?.ok) {
+        router.push(callbackUrl);
+      }
+
     
     } catch (error) {
       console.error("Login failed:", error);
@@ -76,7 +83,7 @@ export default function LoginPage() {
             type="button"
             onClick={() => signIn('google',{
           
-              callbackUrl:"/"
+              callbackUrl:callbackUrl
             })}
             className="w-full bg-white text-gray-900 py-3 px-4 rounded-md font-semibold hover:bg-gray-100 focus:outline-none transition duration-200 flex items-center justify-center gap-3"
           >
